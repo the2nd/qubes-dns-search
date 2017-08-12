@@ -1,0 +1,14 @@
+#!/bin/bash
+DOM0_NAME="dom0"
+RESOLV_CONF="/etc/resolv.conf"
+QUBES_DB_KEY="/qubes-netvm-dns-search"
+QUBES_RPC_POLICY="qubes.DNSSearchUpdate"
+
+if [ "$2" = "up" ] ; then
+	DNS_SEARCH="$(grep "^search " "$RESOLV_CONF" | awk '{print $2}')"
+	qubesdb-write "$QUBES_DB_KEY" "$DNS_SEARCH"
+	qrexec-client-vm "$DOM0_NAME" "$QUBES_RPC_POLICY"
+fi
+if [ "$2" = "down" ] ; then
+	qubesdb-write "$QUBES_DB_KEY" ""
+fi

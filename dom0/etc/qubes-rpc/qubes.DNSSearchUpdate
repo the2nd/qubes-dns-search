@@ -1,0 +1,1 @@
+exec /usr/local/sbin/update_dns_search.sh
